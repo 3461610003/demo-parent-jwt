@@ -12,7 +12,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.util.StringUtils;
-
+/**
+ * @description: JWTTest
+ * @author: zhenghao
+ * @date: 2019/12/18 14:58
+ */
 public class JWTTest {
     /**
      * APP登录Token的生成和解析
@@ -29,7 +33,7 @@ public class JWTTest {
      * 如：token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJBUFAiLCJ1c2VyX2lkIjoiMjEzIiwiaXNzIjoiU2VydmljZSIsImV4cCI6MTU3NzUxNDg1MiwiaWF0IjoxNTc2NjUwODUyfQ.ZbhYK0FVdnWV9Akiq9RX0Ms23gVLOZlAUk-79_Xp2dk  <br/>
      * @param user_id 登录成功后用户user_id, 参数user_id不可传空
      */
-    public static String createToken(Long user_id) throws Exception {
+    public static String createToken(Long user_id) {
         Date iatDate = new Date();
         // expire time
         Calendar nowTime = Calendar.getInstance();
@@ -50,7 +54,7 @@ public class JWTTest {
                 .withClaim("user_id", null == user_id ? null : user_id.toString())
                 .withIssuedAt(iatDate) // sign time
                 .withExpiresAt(expiresDate) // expire time
-                // HMAC256算法签名
+                // base64UrlEncode(header) + "." + base64UrlEncode(payload) + your-256-bit-secret
                 .sign(Algorithm.HMAC256(SECRET)); // signature
 
         return token;
@@ -97,7 +101,7 @@ public class JWTTest {
         String token = createToken(213L);
         System.out.println("token:" + token);
 
-        System.out.println("=========================================x");
+        System.out.println("=========================================");
         Map<String, Claim> stringClaimMap = verifyToken(token);
         System.out.println("解密token:" + stringClaimMap);
         System.out.println("keys:" + stringClaimMap.keySet());
