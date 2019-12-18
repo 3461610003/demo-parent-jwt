@@ -1,4 +1,4 @@
-package com.hao.demo.jwt;
+package com.hao.demojjwt;
 
 import io.jsonwebtoken.*;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class JJWTTest {
     public static void main(String[] args) {
-        String token = getJwtToken("abcdefg", 132L);
+        String token = getJwtToken("456465", 132L);
         System.out.println("token:" + token);
 
         Jws<Claims> claimsJws = verifyJwt(token);

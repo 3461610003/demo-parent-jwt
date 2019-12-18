@@ -7,9 +7,9 @@
         <artifactId>demo-parent-jwt</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>demo-jwt</artifactId>
+    <artifactId>demo-jjwt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo-jwt</name>
+    <name>demo-jjwt</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -23,8 +23,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
         </dependency>
 
         <dependency>
