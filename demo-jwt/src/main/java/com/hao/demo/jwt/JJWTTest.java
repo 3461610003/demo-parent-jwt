@@ -3,7 +3,6 @@ package com.hao.demo.jwt;
 import io.jsonwebtoken.*;
 import org.apache.tomcat.util.codec.binary.Base64;
 
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,11 +26,11 @@ public class JJWTTest {
     }
 
 
-
     // token 过期时间, 单位: 秒. 这个值表示 30 天
     private static final long TOKEN_EXPIRED_TIME = 30 * 24 * 60 * 60;
     // jwt 加密解密密钥
     private static final String JWT_SECRET = "MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY=";
+
     /**
      * 根据userId和openid生成token
      */
@@ -57,7 +56,7 @@ public class JJWTTest {
 //                .setNotBefore(now)          // nbf: 定义在什么时间之前，该jwt都是不可用的.
                 .setIssuedAt(now)           // iat: jwt的签发时间
                 .setExpiration(new Date(now.getTime() + TOKEN_EXPIRED_TIME))    //设置过期时间
-                .signWith(SignatureAlgorithm.HS256, generalKey());     //设置签名使用的签名算法和签名使用的秘钥，此处是header那部分，jjwt已经将这部分内容封装好了。
+                .signWith(SignatureAlgorithm.HS256, new SecretKeySpec(Base64.decodeBase64(JWT_SECRET), "AES"));     //设置签名使用的签名算法和签名使用的秘钥，此处是header那部分，jjwt已经将这部分内容封装好了。
         return builder.compact();
     }
 
@@ -67,16 +66,9 @@ public class JJWTTest {
      */
     public static Jws<Claims> verifyJwt(String token) {
         return Jwts.parser()        //得到DefaultJwtParser
-                .setSigningKey(generalKey()) //设置签名的秘钥
+                .setSigningKey(new SecretKeySpec(Base64.decodeBase64(JWT_SECRET), "AES")) //设置签名的秘钥
                 .parseClaimsJws(token);
 
-    }
-
-    /**
-     * 由字符串生成加密key
-     */
-    public static SecretKey generalKey() {
-        return new SecretKeySpec(Base64.decodeBase64(JWT_SECRET), "AES");
     }
 
 }
