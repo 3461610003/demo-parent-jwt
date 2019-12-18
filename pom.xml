@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>demo-parent-jwt</name>
     <description>Demo project for Spring Boot</description>
+    <packaging>pom</packaging>
 
     <modules>
         <module>demo-jwt</module>
@@ -20,6 +21,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <java-jwt.version>3.8.0</java-jwt.version>
     </properties>
 
     <dependencies>
@@ -40,6 +42,17 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--java-jwt-->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
