@@ -1,6 +1,7 @@
 package com.hao.demo.jwt.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hao.demo.jwt.config.PassToken;
 import com.hao.demo.jwt.config.UserLoginToken;
 import com.hao.demo.jwt.model.User;
 import com.hao.demo.jwt.service.TokenService;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @Description: TODO
+ * @Description 测试api
  * @Author zhenghao
  * @Date 2019/12/18 16:43
  */
@@ -23,28 +24,24 @@ public class UserApi {
 
     //登录
     @PostMapping("/login")
-    public Object login(@RequestBody User user) {
+    @PassToken
+    public Object login(String userName, String password) {
         JSONObject jsonObject = new JSONObject();
-        User userForBase = userService.findByUsername(user);
+        User userForBase = userService.findByUsername(userName, password);
         if (userForBase == null) {
-            jsonObject.put("message", "登录失败,用户不存在");
+            jsonObject.put("message", "登录失败,密码错误或用户不存在");
             return jsonObject;
         } else {
-            if (!userForBase.getPassword().equals(user.getPassword())) {
-                jsonObject.put("message", "登录失败,密码错误");
-                return jsonObject;
-            } else {
-                String token = tokenService.getToken(userForBase);
-                jsonObject.put("token", token);
-                jsonObject.put("user", userForBase);
-                return jsonObject;
-            }
+            String token = tokenService.getToken(userForBase);
+            jsonObject.put("token", token);
+            jsonObject.put("user", userForBase);
+            return jsonObject;
         }
     }
 
     @UserLoginToken
-    @GetMapping("/getMessage")
-    public String getMessage() {
+    @GetMapping("/test")
+    public String test() {
         return "你已通过验证";
     }
 }

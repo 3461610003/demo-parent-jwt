@@ -10,7 +10,6 @@ import com.hao.demo.jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,9 +31,9 @@ HandlerInterceptor接口主要定义了三个方法
 如性能监控中我们可以在此记录结束时间并输出消耗时间，还可以进行一些资源清理，类似于try-catch-finally中的finally，但仅调用处理器执行链中
  */
 /**
- * @Description: TODO
- * @Author zhenghao
- * @Date 2019/12/18 16:39
+ * description 实现一个拦截器就需要实现HandlerInterceptor接口
+ * @author zhenghao
+ * @date 2019/12/18 16:39
  */
 public class AuthenticationInterceptor implements HandlerInterceptor {
     @Autowired
@@ -57,19 +56,19 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             }
         }
         //检查有没有需要用户权限的注解
-        if (method.isAnnotationPresent(UserLoginToken.class)) {
-            UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
-            if (userLoginToken.required()) {
+//        if (method.isAnnotationPresent(UserLoginToken.class)) {
+//            UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
+//            if (userLoginToken.required()) {
                 // 执行认证
                 if (token == null) {
                     throw new RuntimeException("无token，请重新登录");
                 }
-                // 获取 token 中的 user id
+                // 获取 token 中的 userId
                 Long userId;
                 try {
                     userId = Long.parseLong(JWT.decode(token).getAudience().get(0));
                 } catch (JWTDecodeException j) {
-                    throw new RuntimeException("401");
+                    throw new RuntimeException("401 无权限操作");
                 }
                 User user = userService.findUserById(userId);
                 if (user == null) {
@@ -80,24 +79,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
-                    throw new RuntimeException("401");
+                    throw new RuntimeException("401 无权限操作");
                 }
-                return true;
-            }
-        }
+//                return true;
+//            }
+//        }
         return true;
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse,
-                           Object o, ModelAndView modelAndView) throws Exception {
-
-    }
-
-    @Override
-    public void afterCompletion(HttpServletRequest httpServletRequest,
-                                HttpServletResponse httpServletResponse,
-                                Object o, Exception e) throws Exception {
     }
 }

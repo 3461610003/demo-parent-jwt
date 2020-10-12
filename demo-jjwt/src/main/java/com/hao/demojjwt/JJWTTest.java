@@ -22,7 +22,7 @@ public class JJWTTest {
         System.out.println("claims:" + claimsJws);
         System.out.println("signature:" + claimsJws.getSignature());
         System.out.println("header:" + claimsJws.getHeader());
-        System.out.println("Claims:" + claimsJws.getBody());
+        System.out.println("Body:" + claimsJws.getBody());
     }
 
 
@@ -32,6 +32,7 @@ public class JJWTTest {
     private static final String JWT_SECRET = "MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY=";
 
     /**
+     * 加密
      * 根据userId和openid生成token
      */
     public static String getJwtToken(String openId, Long userId) {

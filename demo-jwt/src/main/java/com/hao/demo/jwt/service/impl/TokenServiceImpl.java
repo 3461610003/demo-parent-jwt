@@ -6,8 +6,11 @@ import com.hao.demo.jwt.model.User;
 import com.hao.demo.jwt.service.TokenService;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
- * @Description: TODO
+ * @Description: token
  * @Author zhenghao
  * @Date 2019/12/18 16:54
  */
@@ -16,9 +19,12 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public String getToken(User user) {
-        String token="";
-        token= JWT.create().withAudience(user.getId().toString())   // 将 user id 保存到 token 里面
+        Calendar now = Calendar.getInstance();
+        Date nowTime = now.getTime();
+        now.add(Calendar.SECOND, 10);
+        return JWT.create().withAudience(user.getId().toString())   // 将 user id 保存到 token 里面
+                .withIssuedAt(nowTime)
+                .withExpiresAt(now.getTime())
                 .sign(Algorithm.HMAC256(user.getPassword()));       // 以 password 作为 token 的密钥
-        return token;
     }
 }

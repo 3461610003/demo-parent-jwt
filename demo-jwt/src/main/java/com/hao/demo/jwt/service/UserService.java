@@ -13,5 +13,5 @@ import com.hao.demo.jwt.model.User;
 public interface UserService {
     User findUserById(Long userId);
 
-    User findByUsername(User user);
+    User findByUsername(String userName, String password);
 }

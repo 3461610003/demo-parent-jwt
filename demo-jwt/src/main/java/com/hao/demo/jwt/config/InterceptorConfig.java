@@ -6,7 +6,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @Description: TODO
+ * @Description: 拦截所有请求
  * @Author zhenghao
  * @Date 2019/12/18 17:23
  */
