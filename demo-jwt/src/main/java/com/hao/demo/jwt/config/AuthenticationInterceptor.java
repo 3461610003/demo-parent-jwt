@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.hao.demo.jwt.model.PassToken;
 import com.hao.demo.jwt.model.User;
 import com.hao.demo.jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     private UserService userService;
 
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) {
         String token = httpServletRequest.getHeader("token");// 从 http 请求头中取出 token
         // 如果不是映射到方法直接通过
         if (!(object instanceof HandlerMethod)) {
@@ -66,6 +67,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 // 获取 token 中的 userId
                 Long userId;
                 try {
+                    // 解析token，获取用户id
                     userId = Long.parseLong(JWT.decode(token).getAudience().get(0));
                 } catch (JWTDecodeException j) {
                     throw new RuntimeException("401 无权限操作");

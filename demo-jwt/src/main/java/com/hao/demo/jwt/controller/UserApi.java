@@ -1,13 +1,15 @@
 package com.hao.demo.jwt.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hao.demo.jwt.config.PassToken;
-import com.hao.demo.jwt.config.UserLoginToken;
+import com.hao.demo.jwt.model.PassToken;
 import com.hao.demo.jwt.model.User;
-import com.hao.demo.jwt.service.TokenService;
+import com.hao.demo.jwt.model.UserLoginToken;
 import com.hao.demo.jwt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @Description 测试api
@@ -19,8 +21,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserApi {
     @Autowired
     private UserService userService;
-    @Autowired
-    private TokenService tokenService;
 
     //登录
     @PostMapping("/login")
@@ -32,7 +32,8 @@ public class UserApi {
             jsonObject.put("message", "登录失败,密码错误或用户不存在");
             return jsonObject;
         } else {
-            String token = tokenService.getToken(userForBase);
+            // 生成token
+            String token = userService.getToken(userForBase);
             jsonObject.put("token", token);
             jsonObject.put("user", userForBase);
             return jsonObject;

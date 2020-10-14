@@ -1,4 +1,4 @@
-package com.hao.demo.jwt.config;
+package com.hao.demo.jwt.model;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

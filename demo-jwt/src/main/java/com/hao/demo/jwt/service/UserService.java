@@ -11,6 +11,8 @@ import com.hao.demo.jwt.model.User;
 5.认证通过则可以访问，不通过会报相关错误信息
 */
 public interface UserService {
+    String getToken(User user);
+
     User findUserById(Long userId);
 
     User findByUsername(String userName, String password);

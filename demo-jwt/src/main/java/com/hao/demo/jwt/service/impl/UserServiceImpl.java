@@ -1,5 +1,7 @@
 package com.hao.demo.jwt.service.impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.hao.demo.jwt.model.User;
 import com.hao.demo.jwt.service.UserService;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,16 @@ import java.util.*;
  */
 @Service
 public class UserServiceImpl implements UserService {
+    @Override
+    public String getToken(User user) {
+        Calendar now = Calendar.getInstance();
+        Date nowTime = now.getTime();
+        now.add(Calendar.SECOND, 60);   // 暂设1分钟过期
+        return JWT.create().withAudience(user.getId().toString())   // 将 user id 保存到 token 里面
+                .withIssuedAt(nowTime)
+                .withExpiresAt(now.getTime())
+                .sign(Algorithm.HMAC256(user.getPassword()));       // 以 password 作为 token 的密钥
+    }
 
     private static List<User> db = Arrays.asList(
             new User(123L, "hello", "xx123456"),

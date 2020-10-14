@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * @Description: TODO
- * @Author zhenghao
- * @Date 2019/12/18 16:35
+ * User
  */
 @Data
 @AllArgsConstructor
@@ -30,9 +28,7 @@ public class User {
     }
 
     public String getToken(User user) {
-        String token="";
-        token= JWT.create().withAudience(user.getId().toString())
+        return JWT.create().withAudience(user.getId().toString())
                 .sign(Algorithm.HMAC256(user.getPassword()));
-        return token;
     }
 }
