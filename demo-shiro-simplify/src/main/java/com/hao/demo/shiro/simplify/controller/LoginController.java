@@ -45,9 +45,9 @@ public class LoginController {
         }
         userService.register(userLoginDto);
         String userType;
-        if (userLoginDto.getClient() == null || userLoginDto.getClient() == 1){
+        if (userLoginDto.getClient() == null || userLoginDto.getClient() == 1) {
             userType = UserType.CLIENT.getValue();
-        }else {
+        } else {
             userType = UserType.APP.getValue();
         }
         return login(request, response, userLoginDto, userType);
@@ -102,7 +102,7 @@ public class LoginController {
         log.info("用户登录信息: {},ip: {}", userName, ip);
 
         response.setHeader("Token", token);
-        response.setHeader("Access-Control-Expose-Headers","Token");
+        response.setHeader("Access-Control-Expose-Headers", "Token");
         return Result.result(null, 200, "登录成功");
     }
 
