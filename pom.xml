@@ -19,6 +19,8 @@
         <module>demo-jwt</module>
         <module>demo-jjwt</module>
         <module>demo-shiro</module>
+        <module>demo-shiro-simplify</module>
+        <module>spring-shiro-demo</module>
     </modules>
 
     <properties>

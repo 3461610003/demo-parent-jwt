@@ -1,4 +1,4 @@
-package com.hao.demo.shiro.model;
+package com.hao.demo.shiro.simplify.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,11 +23,6 @@ public class Result<T> implements Serializable {
     private Integer code;
     /** 返回消息 */
     private String msg;
-
-    public static <T> Result<T> result(HttpServletResponse response, T data, Integer code, String msg) {
-        response.setStatus(code);
-        return result(data, code, msg);
-    }
 
     /**
      * 通用返回方法

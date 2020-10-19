@@ -1,8 +1,7 @@
-package com.hao.demo.shiro.util;
+package com.hao.demo.shiro.simplify.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hao.demo.shiro.model.CommonConstants;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,83 +34,14 @@ public class AjaxUtils {
 	}
 
 	/**
-	 * 输出text
-	 */
-	public static void renderText(HttpServletResponse response, final String text, final String... headers) {
-		render(response, CommonConstants.Content_Type.TEXT_TYPE, text, headers);
-	}
-
-	/**
-	 * 输出html
-	 */
-	public static void renderHtml(HttpServletResponse response, final String html, final String... headers) {
-		render(response, CommonConstants.Content_Type.HTML_TYPE, html, headers);
-	}
-
-	/**
-	 * 输出xml
-	 */
-	public static void renderXml(HttpServletResponse response, final String xml, final String... headers) {
-		render(response, CommonConstants.Content_Type.XML_TYPE, xml, headers);
-	}
-
-	/**
-	 * 输出json
-	 */
-	public static void renderJson(HttpServletResponse response, final String jsonString, final String... headers) {
-		render(response, CommonConstants.Content_Type.JSON_TYPE, jsonString, headers);
-	}
-
-	/**
 	 * 输出json，用jackson转换java对象
 	 */
 	public static void renderJson(HttpServletResponse response, final Object data, final String... headers) {
-		initResponseHeader(response, CommonConstants.Content_Type.JSON_TYPE, headers);
+		initResponseHeader(response, "application/json", headers);
 		try {
 			mapper.writeValue(response.getWriter(), data);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * 输出jsonp，用jackson转换java对象
-	 */
-	public static void renderJsonp(HttpServletResponse response, final String callbackName, final Object object,
-                                   final String... headers) {
-		String jsonString = null;
-		try {
-			jsonString = mapper.writeValueAsString(object);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		String result = callbackName + "(" + jsonString + ");";
-
-		// 渲染Content-Type为javascript的返回内容,输出结果为javascript语句
-		render(response, CommonConstants.Content_Type.JS_TYPE, result, headers);
-	}
-
-	/**
-	 * 输入object,输出json 或者 jsonp
-	 */
-	public static void renderJsonOrJsonp(HttpServletResponse response, final String callbackName, final Object object,
-                                         final String... headers) {
-		if (null != callbackName && !StringUtils.isEmpty(callbackName)) {
-			renderJsonp(response, callbackName, object, headers);
-		} else {
-			renderJson(response, object, headers);
-		}
-	}
-
-	/**
-	 * 输入jsonString,输出json 或者 jsonp
-	 */
-	public static void renderJsonOrJsonp(HttpServletResponse response, final String callbackName,
-                                         final String jsonString, final String... headers) {
-		if (null != callbackName && !StringUtils.isEmpty(callbackName)) {
-			renderJsonp(response, callbackName, jsonString, headers);
-		} else {
-			renderJson(response, jsonString, headers);
 		}
 	}
 

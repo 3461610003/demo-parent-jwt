@@ -113,7 +113,7 @@ public class LoginController extends BaseAdminController {
             String token = (String) subject.getPrincipal();
             String salt = JWTUtil.getSalt(token);
             assert salt != null;
-            String tokenKey = JWTUtil.getTokenKey(token) + ":" + salt.substring(salt.lastIndexOf("_") + 1, salt.length());
+            String tokenKey = JWTUtil.getTokenKey(token) + ":" + salt.substring(salt.lastIndexOf("_") + 1);
             //清除redis用户登陆信息
             redisUtil.del(JWTUtil.getSessionId(token), tokenKey);
         }
