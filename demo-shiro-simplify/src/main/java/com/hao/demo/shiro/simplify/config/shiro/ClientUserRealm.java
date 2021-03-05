@@ -1,4 +1,4 @@
-package com.hao.demo.shiro.simplify.config;
+package com.hao.demo.shiro.simplify.config.shiro;
 
 import com.hao.demo.shiro.simplify.model.AllConstants;
 import com.hao.demo.shiro.simplify.model.JWTToken;
