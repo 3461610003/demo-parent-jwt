@@ -4,17 +4,15 @@ import com.hao.bean.Permissions;
 import com.hao.bean.Role;
 import com.hao.bean.User;
 import com.hao.service.LoginService;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -23,7 +21,7 @@ import org.springframework.util.StringUtils;
 @Component
 public class CustomRealm extends AuthorizingRealm {
 
-    @Autowired
+    @Resource
     private LoginService loginService;
 
     /**
@@ -56,12 +54,16 @@ public class CustomRealm extends AuthorizingRealm {
         if (StringUtils.isEmpty(authenticationToken.getPrincipal())) {
             return null;
         }
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
+
         //获取用户信息
         String name = authenticationToken.getPrincipal().toString();
         User user = loginService.getUserByName(name);
         if (user == null) {
             //这里返回后会报出对应异常
-            throw new AuthenticationException("认证失败，用户不存在");
+            throw new UnknownAccountException("认证失败，用户不存在");
+        } else if (!user.getPassword().equals(new String(usernamePasswordToken.getPassword()))) {
+            throw new AuthenticationException("密码错误");
         } else {
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
             return new SimpleAuthenticationInfo(name, user.getPassword(), getName());

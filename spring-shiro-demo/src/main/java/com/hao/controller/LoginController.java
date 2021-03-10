@@ -4,9 +4,7 @@ import com.hao.bean.User;
 import com.hao.service.LoginService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -42,13 +40,20 @@ public class LoginController {
             return new ModelAndView("index");
         } catch (UnknownAccountException e) {
             log.error("用户名不存在！", e);
-            msg =  "用户名不存在！";
+            msg = "用户名不存在！";
+//        } catch (IncorrectCredentialsException ice) {
+            //password didn't match, try again?
+//        } catch (LockedAccountException lae) {
+            //account for that username is locked - can't login.  Show them a message?
         } catch (AuthenticationException e) {
             log.error("账号或密码错误！", e);
-            msg =  "账号或密码错误！";
+            msg = "账号或密码错误！";
         } catch (AuthorizationException e) {
             log.error("没有权限！", e);
-            msg =  "没有权限";
+            msg = "没有权限";
+        } catch (Exception e) {
+            log.error("未知错误", e);
+            msg = "未知错误";
         }
         return new ModelAndView("login", "msg", msg);
     }
@@ -56,7 +61,7 @@ public class LoginController {
     @RequiresRoles("admin")
     @GetMapping("/admin")
     public String admin() {
-        return "admin success!";
+        return "admin login success!";
     }
 
     @RequiresPermissions("query")
@@ -69,6 +74,12 @@ public class LoginController {
     @GetMapping("/add")
     public String add() {
         return "add success!";
+    }
+
+    @RequiresPermissions("edit")
+    @GetMapping("/edit")
+    public String edit() {
+        return "edit success!";
     }
 
     @GetMapping("/unauth")

@@ -70,7 +70,27 @@
     当尚未完成成功认证时，尝试执行授权操作时引发异常。
 
 
-
+Key         	                            Default Value   Description
+shiro.enabled	                            true	        Enables Shiro’s Spring module
+shiro.web.enabled	                        true	        Enables Shiro’s Spring web module
+shiro.annotations.enabled	                true	        Enables Spring support for Shiro’s annotations
+shiro.sessionManager.deleteInvalidSessions	true	        Remove invalid session from session storage
+shiro.sessionManager.sessionIdCookieEnabled	true	        Enable session ID to cookie, for session tracking
+shiro.sessionManager.sessionIdUrlRewriting  Enabled	        true	Enable session URL rewriting support
+shiro.userNativeSessionManager	            false	        If enabled Shiro will manage the HTTP sessions instead of the container
+shiro.sessionManager.cookie.name	        JSESSIONID	    Session cookie name
+shiro.sessionManager.cookie.maxAge	        -1	            Session cookie max age
+shiro.sessionManager.cookie.domain	        null	        Session cookie domain
+shiro.sessionManager.cookie.path	        null	        Session cookie path
+shiro.sessionManager.cookie.secure	        false	        Session cookie secure flag
+shiro.rememberMeManager.cookie.name	        rememberMe	    RememberMe cookie name
+shiro.rememberMeManager.cookie.maxAge	    one year	    RememberMe cookie max age
+shiro.rememberMeManager.cookie.domain	    null	        RememberMe cookie domain
+shiro.rememberMeManager.cookie.path	        null	        RememberMe cookie path
+shiro.rememberMeManager.cookie.secure	    false	        RememberMe cookie secure flag
+shiro.loginUrl	                            /login.jsp	    Login URL used when unauthenticated users are redirected to login page
+shiro.successUrl	                        /	            Default landing page after a user logs in (if alternative cannot be found in the current session)
+shiro.unauthorizedUrl	                    null	        Page to redirect user to if they are unauthorized (403 page)
 
 
 
