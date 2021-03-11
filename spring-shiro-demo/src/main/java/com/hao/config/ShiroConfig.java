@@ -1,5 +1,6 @@
 package com.hao.config;
 
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -49,6 +50,22 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setUnauthorizedUrl("/error");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
         return shiroFilterFactoryBean;
+    }
+
+    @Bean
+    protected EhCacheManager cacheManager(SecurityManager securityManager) {
+        EhCacheManager ehCacheManager = new EhCacheManager();
+
+        // Set a net.sf.ehcache.CacheManager instance here if you already have one.
+        // If not, a new one will be creaed with a default config:
+        // ehCacheManager.setCacheManager(...);
+
+        // If you don't have a pre-built net.sf.ehcache.CacheManager instance to inject, but you want
+        // a specific Ehcache configuration to be used, specify that here.  If you don't, a default
+        //will be used.:
+        ehCacheManager.setCacheManagerConfigFile("classpath:ehcache.xml");
+        ((DefaultWebSecurityManager) securityManager).setCacheManager(ehCacheManager);
+        return ehCacheManager;
     }
 
     // 注入权限管理
