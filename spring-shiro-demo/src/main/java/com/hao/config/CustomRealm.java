@@ -62,8 +62,9 @@ public class CustomRealm extends AuthorizingRealm {
         if (user == null) {
             //这里返回后会报出对应异常
             throw new UnknownAccountException("认证失败，用户不存在");
-        } else if (!user.getPassword().equals(new String(usernamePasswordToken.getPassword()))) {
-            throw new AuthenticationException("密码错误");
+            // 框架已经实现
+//        } else if (!user.getPassword().equals(new String(usernamePasswordToken.getPassword()))) {
+//            throw new AuthenticationException("密码错误");
         } else {
             //这里验证authenticationToken和simpleAuthenticationInfo的信息
             return new SimpleAuthenticationInfo(name, user.getPassword(), getName());

@@ -46,8 +46,11 @@ public class AppUserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         log.info("===3app=== 授权 校验正确的当前用户");
         //校验正确的当前用户
-        if (!principalCollection.getRealmNames().contains(getName())) return null;
+        if (!principalCollection.getRealmNames().contains(getName())){
+            return null;
+        }
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        // 设置角色
         info.addRole(getName());
         return info;
     }
